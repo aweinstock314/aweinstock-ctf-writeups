@@ -1,0 +1,148 @@
+(gdb) x/a &copy
+0x602080 <copy>:    0x7ffc26ab5e80
+(gdb) x/32wx 0x7ffc26ab5e80+1024*100
+0x7ffc26acee80: 0x41414141  0x41414141  0x41414141  0x00000000
+0x7ffc26acee90: 0x41414141  0x41414141  0x580c3b45  0x00007fd1
+0x7ffc26aceea0: 0x00000000  0x00000000  0x26acef78  0x00007ffc
+0x7ffc26aceeb0: 0x00000000  0x00000001  0x004009ff  0x00000000
+0x7ffc26aceec0: 0x00000000  0x00000000  0xde307a1d  0x10d107c8
+0x7ffc26aceed0: 0x00400640  0x00000000  0x26acef70  0x00007ffc
+0x7ffc26aceee0: 0x00000000  0x00000000  0x00000000  0x00000000
+0x7ffc26aceef0: 0x03707a1d  0xef294a91  0xabca7a1d  0xef73b7d0
+(gdb) x/8a 0x7ffc26ab5e80+1024*100
+0x7ffc26acee80: 0x4141414141414141  0x41414141
+0x7ffc26acee90: 0x4141414141414141  0x7fd1580c3b45 <__libc_start_main+245>
+0x7ffc26aceea0: 0x0 0x7ffc26acef78
+0x7ffc26aceeb0: 0x100000000 0x4009ff <main>
+-----
+[0x00021dd0]> ? sym.__libc_start_main
+138704 0x21dd0 0416720 135.5K 2000:0dd0 138704 11010000 138704.0 0.000000f 0.000000
+[0x00021dd0]> ? sym.__libc_start_main+245
+138949 0x21ec5 0417305 135.7K 2000:0ec5 138949 11000101 138949.0 0.000000f 0.000000
+-----
+[0x00046170]> axt str._bin_sh
+data 0xc1c91 leaq 0xbb043(%rip), %rcx in sym.execvpe
+data 0xc1d42 leaq 0xbaf92(%rip), %rdi in sym.execvpe
+data 0xc1a21 leaq 0xbb2b3(%rip), %rax in sym.execvpe
+data 0xc1cf3 leaq 0xbafe1(%rip), %rdi in sym.execvpe
+data 0x6fcaa leaq 0x10d02a(%rip), %rdi in sym._IO_proc_open
+data 0x46533 leaq 0x1367a1(%rip), %rdi in fcn.00046170
+data 0xe4d38 leaq 0x97f9c(%rip), %rdi in fcn.000e4690
+data 0xe4ac8 leaq 0x9820c(%rip), %rdi in fcn.000e4690
+data 0xe4a10 leaq 0x982c4(%rip), %rax in fcn.000e4690
+data 0xf388e leaq 0x89446(%rip), %rax in fcn.000f3800
+data 0xe57b8 leaq 0x9751c(%rip), %rax in fcn.000e559d
+data 0xe58d1 leaq 0x97403(%rip), %rdi in fcn.000e57ea
+data 0xe58e5 leaq 0x973ef(%rip), %rax in fcn.000e57ea
+data 0xe6687 leaq 0x9664d(%rip), %rax in fcn.000e5c6d
+data 0xe67d0 leaq 0x96504(%rip), %rax in fcn.000e5c6d
+data 0xe6829 leaq 0x964ab(%rip), %rdi in fcn.000e5c6d
+[0x00046170]> axt sym.execve
+code 0xc143a jmp sym.execve in sym.execv
+call 0xc1745 callq sym.execve in sym.execl
+call 0xc170c callq sym.execve in sym.execl
+call 0xc1b84 callq sym.execve in sym.execvpe
+call 0xc1c1b callq sym.execve in sym.execvpe
+call 0xc198b callq sym.execve in sym.execvpe
+call 0xc1a7a callq sym.execve in sym.execvpe
+call 0x46556 callq sym.execve in fcn.00046170
+call 0xc155f callq sym.execve in sym.execle
+call 0xc13b1 callq sym.execve in sym.fexecve
+call 0xe4ced callq sym.execve in fcn.000e4690
+call 0xe4dab callq sym.execve in fcn.000e4690
+call 0xe49b8 callq sym.execve in fcn.000e4690
+call 0xe4a7d callq sym.execve in fcn.000e4690
+call 0xe58db callq sym.execve in fcn.000e57ea
+call 0xe6833 callq sym.execve in fcn.000e5c6d
+-----
+│   │││││   0x0004652c      488b05757937.  movq 0x377975(%rip), %rax   ; [0x3bdea8:8]=0
+│   │││││   0x00046533      488d3da16713.  leaq 0x1367a1(%rip), %rdi   ; 0x17ccdb ; str._bin_sh ; "/bin/sh" @ 0x17ccdb
+│   │││││   0x0004653a      488d742430     leaq 0x30(%rsp), %rsi       ; 0x30 ; section_end..gnu.warning.fdetach ; section_end..gnu.warning.fdetach
+│   │││││   0x0004653f      c70577a13700.  movl $0, 0x37a177(%rip)     ; [0x3c06c0:4]=32
+│   │││││   0x00046549      c7057da13700.  movl $0, 0x37a17d(%rip)     ; [0x3c06d0:4]=4
+│   │││││   0x00046553      488b10         movq (%rax), %rdx
+│   │││││   0x00046556      e8d5ad0700     callq sym.execve
+│   │││││   0x0004655b      bf7f000000     movl $0x7f, %edi
+│   │││││   0x00046560      e86bad0700     callq sym._exit
+-----
+│   ││││    0x000e58c5      488b05dc852d.  movq 0x2d85dc(%rip), %rax   ; [0x3bdea8:8]=0
+│   ││││    0x000e58cc      488d742450     leaq 0x50(%rsp), %rsi       ; 0x50 ; 'P'
+│   ││││    0x000e58d1      488d3d037409.  leaq 0x97403(%rip), %rdi    ; 0x17ccdb ; str._bin_sh ; "/bin/sh" @ 0x17ccdb
+│   ││││    0x000e58d8      488b10         movq (%rax), %rdx
+│   ││││    0x000e58db      e850bafdff     callq sym.execve
+│   ││││    0x000e58e0      e8ab46f5ff     callq sym.abort
+-----
+│           0x000e4d2b      4889e3         movq %rsp, %rbx
+│           0x000e4d2e      488b8de8feff.  movq -0x118(%rbp), %rcx
+│           0x000e4d35      4863d2         movslq %edx, %rdx
+│           0x000e4d38      488d3d9c7f09.  leaq 0x97f9c(%rip), %rdi    ; 0x17ccdb ; str._bin_sh ; "/bin/sh" @ 0x17ccdb
+│           0x000e4d3f      488d14d51600.  leaq 0x16(, %rdx, 8), %rdx  ; 0x16
+│           0x000e4d47      4883e2f0       andq $0xfffffffffffffff0, %rdx
+│           0x000e4d4b      4829d4         subq %rdx, %rsp
+│           0x000e4d4e      488d542407     leaq 7(%rsp), %rdx          ; 0x7
+│           0x000e4d53      48c1ea03       shrq $3, %rdx
+│           0x000e4d57      83f801         cmpl $1, %eax
+│           0x000e4d5a      488d34d50000.  leaq (, %rdx, 8), %rsi
+│           0x000e4d62      48893cd50000.  movq %rdi, (, %rdx, 8)
+│           0x000e4d6a      48890cd50800.  movq %rcx, 8(, %rdx, 8)
+│           0x000e4d72      4989f0         movq %rsi, %r8
+│       ┌─< 0x000e4d75      742d           je 0xe4da4
+│       │   0x000e4d77      488bbd18ffff.  movq -0xe8(%rbp), %rdi
+│       │   0x000e4d7e      4863c8         movslq %eax, %rcx
+│       │   0x000e4d81      488d4ccff8     leaq -8(%rdi, %rcx, 8), %rcx
+│       │   ; JMP XREF from 0x000e4d9a (fcn.000e4690)
+│      ┌──> 0x000e4d86      4c8b09         movq (%rcx), %r9
+│      ││   0x000e4d89      4863f8         movslq %eax, %rdi
+│      ││   0x000e4d8c      83e801         subl $1, %eax
+│      ││   0x000e4d8f      4883e908       subq $8, %rcx
+│      ││   0x000e4d93      83f801         cmpl $1, %eax
+│      ││   0x000e4d96      4d890cf8       movq %r9, (%r8, %rdi, 8)
+│      └──< 0x000e4d9a      75ea           jne 0xe4d86
+│       │   0x000e4d9c      488b3cd50000.  movq (, %rdx, 8), %rdi
+│       │   ; JMP XREF from 0x000e4d75 (fcn.000e4690)
+│       └─> 0x000e4da4      488b9510ffff.  movq -0xf0(%rbp), %rdx
+│           0x000e4dab      e880c5fdff     callq sym.execve
+-----
+│ │││││││   ; JMP XREF from 0x000e4acf (fcn.000e4690)
+│ ────────> 0x000e4a76      488b9510ffff.  movq -0xf0(%rbp), %rdx
+│ │││││││   0x000e4a7d      e8aec8fdff     callq sym.execve
+│ │││││││   0x000e4a82      488b05df932d.  movq 0x2d93df(%rip), %rax   ; [0x3bde68:8]=0
+│ │││││││   0x000e4a89      4c89f4         movq %r14, %rsp
+│ │││││││   0x000e4a8c      648b10         movl %fs:(%rax), %edx
+│ ────────< 0x000e4a8f      e9b4feffff     jmp 0xe4948
+│ │││││││   ; JMP XREF from 0x000e486f (fcn.000e4690)
+│ │││││└──> 0x000e4a94      488bb5d8feff.  movq -0x128(%rbp), %rsi
+│ │││││ │   0x000e4a9b      bf07000000     movl $7, %edi
+│ │││││ │   0x000e4aa0      e8abc20000     callq sym.getrlimit64
+│ ││││└───< 0x000e4aa5      e9cbfdffff     jmp 0xe4875
+│ ││││  │   0x000e4aaa      660f1f440000   nopw (%rax, %rax)
+│ ││││  │   ; JMP XREF from 0x000e494d (fcn.000e4690)
+│ ────────> 0x000e4ab0      83fa02         cmpl $2, %edx
+│ ────────< 0x000e4ab3      0f84adfeffff   je 0xe4966
+│ ││││  │   0x000e4ab9      bf7f000000     movl $0x7f, %edi
+│ ││││  │   0x000e4abe      e80dc8fdff     callq sym._exit
+│ ││││  │   0x000e4ac3      0f1f440000     nopl (%rax, %rax)
+│ ││││  │   ; JMP XREF from 0x000e4a3e (fcn.000e4690)
+│ ────────> 0x000e4ac8      488d3d0c8209.  leaq 0x9820c(%rip), %rdi    ; 0x17ccdb ; str._bin_sh ; "/bin/sh" @ 0x17ccdb
+│ ────────< 0x000e4acf      eba5           jmp 0xe4a76
+-----
+│ ────────> 0x000c1a77      4c89e2         movq %r12, %rdx
+│ │││││││   0x000c1a7a      e8b1f8ffff     callq sym.execve
+---
+│ │││││││   ; JMP XREF from 0x000c1a33 (sym.execvpe)
+│ ────────> 0x000c1cf3      488d3de1af0b.  leaq 0xbafe1(%rip), %rdi    ; 0x17ccdb ; str._bin_sh ; "/bin/sh" @ 0x17ccdb
+│ ────────< 0x000c1cfa      e978fdffff     jmp 0xc1a77
+-----
+│   │││ └─> 0x000f388e      488d05469408.  leaq 0x89446(%rip), %rax    ; 0x17ccdb ; str._bin_sh ; "/bin/sh" @ 0x17ccdb
+│   │││     0x000f3895      488905a4dd2c.  movq %rax, 0x2cdda4(%rip)   ; [0x3c1640:8]=48
+│   │││     0x000f389c      488d05c6b108.  leaq 0x8b1c6(%rip), %rax    ; 0x17ea69 ; str._bin_csh ; "/bin/csh" @ 0x17ea69
+│   │││     0x000f38a3      4889059edd2c.  movq %rax, 0x2cdd9e(%rip)   ; [0x3c1648:8]=0
+│   │││     0x000f38aa      4881c4980000.  addq $0x98, %rsp
+│   │││     0x000f38b1      488d0588dd2c.  leaq 0x2cdd88(%rip), %rax   ; 0x3c1640
+│   │││     0x000f38b8      5b             popq %rbx
+│   │││     0x000f38b9      5d             popq %rbp
+│   │││     0x000f38ba      415c           popq %r12
+│   │││     0x000f38bc      415d           popq %r13
+│   │││     0x000f38be      c3             retq
+│   │││     0x000f38bf      90             nop
+-----
