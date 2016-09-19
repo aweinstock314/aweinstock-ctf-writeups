@@ -135,6 +135,6 @@ base_delta: 0
 ```
 
 ## Detours I took (without the benefit of hindsight)
-I didn't initially use r2's strings command to find the `cat flag.txt` string in the binary. I was looking for the strings `ed` and `sh` in `objdump -s warmup`'s output, in order to get a shell. I didn't find either, but I did notice the `cat flag.txt` string during that.
+- I didn't initially use r2's strings command to find the `cat flag.txt` string in the binary. I was looking for the strings `ed` and `sh` in `objdump -s warmup`'s output, in order to get a shell. I didn't find either, but I did notice the `cat flag.txt` string during that.
 
-Also, the using the leak turned out to be unnecessary, as the binary wasn't compiled as position independent (hence `base_delta` evaluating to 0).
+- Also, the using the leak turned out to be unnecessary, as the binary wasn't compiled as position independent (hence `base_delta` evaluating to 0).
