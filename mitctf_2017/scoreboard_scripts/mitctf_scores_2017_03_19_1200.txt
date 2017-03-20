@@ -1,0 +1,45 @@
+At time 12:00:
+        Team u'SNP Tunnel Fund' had score 6400
+        Team u"Batman's Kitchen" had score 4700
+        Team u"Don't hack alone" had score 4300
+        Team u'Alchemists' had score 3400
+        Team u'RPISEC' had score 3200
+        Team u'bcc' had score 3100
+        Team u'NYUSEC Red' had score 3000
+        Team u'DDOS ATTACKS' had score 2900
+        Team u'Allomancers' had score 2800
+        Team u'Team Hillarious' had score 2600
+        Team u'The Lumberjacks' had score 2500
+        Team u'Tetazoo' had score 2300
+        Team u'grumpy-fuzzducks' had score 2300
+        Team u'dcua' had score 2200
+        Team u'rm -rf --no-preserve-root /' had score 2100
+        Team u'6.006' had score 2000
+        Team u'CyberLions' had score 1900
+        Team u'123456Seven' had score 1800
+        Team u'UConnSec' had score 1800
+        Team u'0xBU' had score 1700
+        Team u'NYUSEC_blue' had score 1600
+        Team u'SecLab' had score 1300
+        Team u'objEEdump' had score 1200
+        Team u"Katman's Bitchen" had score 1000
+        Team u'cyBears' had score 1000
+        Team u'Pwnasaurus' had score 1000
+        Team u'hack@unhcfreg' had score 900
+        Team u'its-a-unnix-system' had score 800
+        Team u'USCGA_EXTRANET' had score 700
+        Team u'UConn Team 2' had score 700
+        Team u'Fuzzing Wuzzy' had score 700
+        Team u'password_is_guest' had score 600
+        Team u'The Rhinoceri' had score 600
+        Team u'FShitUp' had score 300
+        Team u'Hardcor' had score 300
+        Team u'Little Bobby Tables' had score 200
+        Team u'Security Hoes' had score 0
+        Team u'PKTeam' had score 0
+        Team u'Broke The Build' had score 0
+        Team u'beast best ctf' had score 0
+        Team u'noobs' had score 0
+        Team u'H3ll0 w0rld' had score 0
+        Team u'The Flaming Engineers' had score 0
+        Team u'Erasaur' had score 0
