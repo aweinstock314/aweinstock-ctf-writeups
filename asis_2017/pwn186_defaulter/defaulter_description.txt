@@ -1,0 +1,23 @@
+ Defaulter
+
+Average: 2.33
+Rating Count: 6
+You Rated: Not rated
+Top 3 Solver
+
+    DangRanKeYi
+    phddaa
+    dcua
+
+Points
+186
+Solves
+6
+Category
+Pwning
+
+Description:
+
+    Its x64, the flag is "./flag" if you really need this.
+
+    nc 188.226.140.60 10001
