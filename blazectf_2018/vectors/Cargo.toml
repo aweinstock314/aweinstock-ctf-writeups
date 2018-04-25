@@ -1,0 +1,8 @@
+[package]
+name = "vectors"
+version = "0.1.0"
+authors = ["Avi Weinstock <aweinstock314@gmail.com>"]
+
+[dependencies]
+libc = "*"
+smallvec = "*"
